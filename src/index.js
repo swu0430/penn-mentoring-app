@@ -4,11 +4,22 @@ import './index.css';
 import App from './components/App';
 import reportWebVitals from './reportWebVitals';
 import 'semantic-ui-css/semantic.min.css'
+import { FirebaseAppProvider } from 'reactfire';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDS1UwdnqE6ToaZpEHISufjp7DT_C0q7yk",
+  authDomain: "penn-mentoring.firebaseapp.com",
+  databaseURL: "https://penn-mentoring-default-rtdb.firebaseio.com",
+  projectId: "penn-mentoring",
+  storageBucket: "penn-mentoring.appspot.com",
+  messagingSenderId: "635588784879",
+  appId: "1:635588784879:web:08b1d46cceac3be9efa11a"
+};
 
 ReactDOM.render(
-  <React.StrictMode>
+  <FirebaseAppProvider firebaseConfig={firebaseConfig}>
     <App />
-  </React.StrictMode>,
+  </FirebaseAppProvider>,
   document.getElementById('root')
 );
 
