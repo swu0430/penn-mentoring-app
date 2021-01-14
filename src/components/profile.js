@@ -7,7 +7,8 @@ import {
   Radio,
   Select,
   TextArea,
-} from 'semantic-ui-react'
+} from 'semantic-ui-react';
+import Navigation from './navigation';
 
 const options = [
   { key: 'm', text: 'Male', value: 'male' },
@@ -23,6 +24,8 @@ class ProfileForm extends Component {
   render() {
     const { value } = this.state
     return (
+      <div>
+      <Navigation/>
       <Form>
         <Form.Group inline>
           <label>Group</label>
@@ -74,6 +77,7 @@ class ProfileForm extends Component {
         />
         <Form.Field control={Button}>Submit</Form.Field>
       </Form>
+      </div>
     )
   }
 }
