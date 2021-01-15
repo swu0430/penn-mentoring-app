@@ -1,0 +1,32 @@
+.profile-border{
+    margin-left:2%;
+    margin-right:2%;
+    margin-bottom:1%;
+    margin-top:1%;
+    width:98%;
+    height:96%;
+}
+
+.divider{
+    width:10px;
+    height:auto;
+    display:inline-block;
+}
+
+.delete-job, .delete-job-interest{
+    width:40px;
+    height:auto;
+    display:inline-block;
+}
+
+.add-job, .add-job-interest{
+    width:40px;
+    height:35px;
+    display:inline-block;
+}
+
+.submit{
+    width:auto;
+    height:30px;
+    display:inline-block;
+}
