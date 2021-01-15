@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
 import { useFirestoreDocData, useFirestore } from 'reactfire';
 import 'firebase/firestore';
+import firebase from 'firebase'
+require('firebase/auth')
 
 function Burrito() {
+  var currentUser = firebase.auth().currentUser;
+
   const burritoRef = useFirestore()
     .collection('tryreactfire')
     .doc('burrito');
@@ -22,6 +26,10 @@ function Burrito() {
   if (status === 'loading') {
     return <p>Fetching burrito flavor...</p>;
 
+  }
+
+  if (!currentUser) {
+    return <p>Please sign in to view contents</p>;
   }
 
   return (

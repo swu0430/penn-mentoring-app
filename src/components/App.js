@@ -4,11 +4,13 @@ import React from 'react';
 import ProfileForm from './profile';
 import { useFirestoreDocData, useFirestore } from 'reactfire';
 import 'firebase/firestore';
+import firebase from 'firebase'
 import Burrito from './burrito';
 import {BrowserRouter, Route} from 'react-router-dom'
 import Navigation from './navigation';
 import GoogleAuth from './GoogleAuth';
 
+require('firebase/auth')
 // function Burrito() {
 //   // easily access the Firestore library
 //   const burritoRef = useFirestore()
@@ -28,17 +30,28 @@ import GoogleAuth from './GoogleAuth';
 // }
 
 class App extends React.Component {
+
   render () {
-    return (
-      <div className="ui cotainer">
-        <BrowserRouter>
-          <Navigation/>
-          <Route path="/" exact component={GoogleAuth}/>
-          <Route path="/profileform" exact component={ProfileForm}/>
-          <Route path="/burrito" exact component={Burrito}/>
-        </BrowserRouter>
-      </div>
-    );
+    // if(this.state.user) {
+      return (
+        <div className="ui cotainer">
+          <BrowserRouter>
+            <Navigation/>
+            <Route path="/" exact component={GoogleAuth}/>
+            <Route path="/profileform" exact component={ProfileForm}/>
+            <Route path="/burrito" exact component={Burrito}/>
+          </BrowserRouter>
+        </div>
+      );
+    // } else {
+    //   return (
+    //     <div className="ui cotainer">
+    //       <BrowserRouter>
+    //         <Route path="/" exact component={GoogleAuth}/>
+    //       </BrowserRouter>
+    //     </div>
+    //   );
+    // }
   }
 }
 

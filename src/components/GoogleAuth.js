@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {Redirect} from 'react-router-dom';
 import { useFirebaseApp } from 'reactfire';
 import firebase from 'firebase'
 require('firebase/auth')
@@ -22,13 +23,14 @@ const GoogleAuth = () => {
 
 
   const firebase = useFirebaseApp();
+  var currentUser = firebase.auth().currentUser;
 
   const handleSignUp = async(e) => {
     e.preventDefault();
 
     await firebase.auth().createUserWithEmailAndPassword(user.email, user.password)
     .then((user) => {
-      console.log(user);
+      window.location.reload(false);
     })
     .catch((error) => {
       var errorCode = error.code;
@@ -42,7 +44,7 @@ const GoogleAuth = () => {
 
     await firebase.auth().signInWithEmailAndPassword(user.email, user.password)
     .then((user) => {
-      console.log(user);
+      window.location.reload(false);
     })
     .catch((error) => {
       var errorCode = error.code;
@@ -55,11 +57,21 @@ const GoogleAuth = () => {
     e.preventDefault();
 
     await firebase.auth().signOut().then(() => {
-      // Sign-out successful.
+      window.location.reload(false);
     }).catch((error) => {
       // An error happened.
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      console.log(errorMessage)
     });
   }
+
+  if (currentUser) {
+    return <button onClick={handleSignOut}>Sign Out</button>
+  } else {
+
+  }
+
 
   return (
     <div>
