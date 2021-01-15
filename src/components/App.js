@@ -5,6 +5,9 @@ import ProfileForm from './profile';
 import { useFirestoreDocData, useFirestore } from 'reactfire';
 import 'firebase/firestore';
 import Burrito from './burrito';
+import {BrowserRouter, Route} from 'react-router-dom'
+import Navigation from './navigation';
+import GoogleAuth from './GoogleAuth';
 
 // function Burrito() {
 //   // easily access the Firestore library
@@ -27,13 +30,13 @@ import Burrito from './burrito';
 class App extends React.Component {
   render () {
     return (
-      <div>
-        <div>
-          <ProfileForm/>
-        </div>
-        <div className="App">
-          <Burrito />
-        </div>
+      <div className="ui cotainer">
+        <BrowserRouter>
+          <Navigation/>
+          <Route path="/" exact component={GoogleAuth}/>
+          <Route path="/profileform" exact component={ProfileForm}/>
+          <Route path="/burrito" exact component={Burrito}/>
+        </BrowserRouter>
       </div>
     );
   }

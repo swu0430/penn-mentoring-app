@@ -1,20 +1,19 @@
 import React, { Component } from 'react';
-import GoogleAuth from './GoogleAuth';
+import {Link} from 'react-router-dom';
 
 class Navigation extends Component {
   render() {
     return (
-      <div className="ui menu">
-        <GoogleAuth/>
-        <a className="active item">
+      <div className="ui secondary pointing menu">
+        <Link to="/" className="item">
           Home
-        </a>
-        <a className="item">
-          Messages
-        </a>
-        <a className="item">
-          Profiles
-        </a>
+        </Link>
+        <Link to="/profileform" className="item">
+          Profile
+        </Link>
+        <Link to="/burrito" className="item">
+          Burrito
+        </Link>
       </div>
     );
   }

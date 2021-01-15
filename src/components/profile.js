@@ -8,7 +8,7 @@ import {
   Select,
   TextArea,
 } from 'semantic-ui-react';
-import Navigation from './navigation';
+
 
 const options = [
   { key: 'm', text: 'Male', value: 'male' },
@@ -25,7 +25,6 @@ class ProfileForm extends Component {
     const { value } = this.state
     return (
       <div>
-      <Navigation/>
       <Form>
         <Form.Group inline>
           <label>Group</label>
