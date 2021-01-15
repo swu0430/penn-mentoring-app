@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
+import GoogleAuth from './GoogleAuth';
 
 class Navigation extends Component {
   render() {
     return (
       <div className="ui menu">
+        <GoogleAuth/>
         <a className="active item">
           Home
         </a>
