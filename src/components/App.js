@@ -8,6 +8,7 @@ import firebase from 'firebase'
 import Burrito from './burrito';
 import {BrowserRouter, Route} from 'react-router-dom'
 import Navigation from './navigation';
+import Auth from './Auth';
 import GoogleAuth from './GoogleAuth';
 
 require('firebase/auth')
@@ -37,7 +38,7 @@ class App extends React.Component {
         <div className="ui cotainer">
           <BrowserRouter>
             <Navigation/>
-            <Route path="/" exact component={GoogleAuth}/>
+            <Route path="/" exact component={Auth}/>
             <Route path="/profileform" exact component={ProfileForm}/>
             <Route path="/burrito" exact component={Burrito}/>
           </BrowserRouter>

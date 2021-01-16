@@ -59,21 +59,15 @@ const GoogleAuth = () => {
     await firebase.auth().signOut().then(() => {
       window.location.reload(false);
     }).catch((error) => {
-      // An error happened.
+      // An error hapit pened.
       var errorCode = error.code;
       var errorMessage = error.message;
       console.log(errorMessage)
     });
   }
 
-  if (currentUser) {
-    return <button onClick={handleSignOut}>Sign Out</button>
-  } else {
-
-  }
-
-
   return (
+    // currentUser?
     <div>
      <form>
        <input type="text" placeholder="Email" name="email" onChange={handleChange}/><br />
@@ -83,6 +77,8 @@ const GoogleAuth = () => {
      </form>
      {user.error && <h4>{user.error}</h4>}
     </div>
+    // :
+    // <button onClick={handleSignOut}>Sign Out</button>
   )
 };
 
