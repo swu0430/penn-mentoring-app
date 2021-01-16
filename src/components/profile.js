@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Form,
   Input,
@@ -8,7 +8,7 @@ import '../profile.css';
 import { useFirebaseApp, useFirestore, useFirestoreCollectionData } from 'reactfire';
 
 function ProfileForm() {
-
+  
   // Boolean variable to determine whether to show the profile or not
   //var showProfile = false;
 
@@ -19,9 +19,9 @@ function ProfileForm() {
   var currentUser = firebase.auth().currentUser;
 
   //Initial profile information for a new user
-  var finalPennGroup = 'Undergraduate Student';
-  var finalJobs = [{org: "", job: ""}]
-  var finalJobInterests = [{org: "", job: ""}]
+  var finalPennGroup = '';
+  var finalJobs = [{org: "", job: ""}] 
+  var finalJobInterests = [{org: "", job: ""}] 
 
   // PENN EDUCATION GROUP
 
@@ -29,13 +29,21 @@ function ProfileForm() {
 
     const [educationGroup, setEducationGroup] = useState(finalPennGroup);
 
-    userCollection.doc(currentUser.uid).get().then(function(doc) {
-      if (doc.exists) {
-        console.log(doc.data());
-        finalPennGroup = doc.data()['pennGroup'];
-        setEducationGroup(finalPennGroup);
-      }
-    })
+    useEffect(() => {
+      let isMounted = true; // let this flag denote mount status
+      userCollection.doc(currentUser.uid).get().then(function(doc) {
+        if (isMounted) {
+          if (doc.exists) {
+            finalPennGroup = doc.data()['pennGroup'];
+            setEducationGroup(finalPennGroup);
+          } else {
+            finalPennGroup = 'Undergraduate Student';
+            setEducationGroup(finalPennGroup);
+          }
+        }
+      })
+      return () => { isMounted = false }; // use effect cleanup to set flag false, if unmounted
+    });
 
     return (
       <div>
@@ -75,20 +83,35 @@ function ProfileForm() {
       </div>
     )
   }
-
+  
   // PREVIOUS JOBS
 
   const JobForm = () => {
 
-    const [jobForms, setJobForms] = useState([{org: "", job: ""}]);
+    const [jobForms, setJobForms] = useState(finalJobs);
 
+/*     useEffect(() => {
+      prevent
+      let isMounted = true; // let this flag denote mount status
+      userCollection.doc(currentUser.uid).get().then(function(doc) {
+        if (isMounted) {
+          if (doc.exists) {
+            finalJobs = doc.data()['jobs'];
+            setJobForms(finalJobs);
+          }
+        }
+      })
+      return () => { isMounted = false }; // use effect cleanup to set flag false, if unmounted
+    });  */
+  
+    
     function SingleJob({org, job, index}) {
       const [newJob, setNewJob] = useState({org: org, job: job});
 
       const deleteJobForm = () => {
         finalJobs.splice(index, 1);
         setJobForms([...finalJobs]);
-      }
+      } 
 
       return (
         <>
@@ -108,18 +131,18 @@ function ProfileForm() {
                 finalJobs[index]['job'] = e.target.value;
                 setNewJob({job: e.target.value})}}
               value={newJob['job']}
-            />
+            /> 
             <div class="divider"/>
             <button class="delete-job" onClick={deleteJobForm}>-</button>
           </Form.Group>
         </>
-      )
+      )  
     }
 
     const addJobForm = () => {
       finalJobs.push({org: "", job: ""});
       setJobForms([...finalJobs]);
-    }
+    } 
 
 /*     const displayJobs = () => {
       for (let i = 0; i < jobForms.length; i++) {
@@ -133,26 +156,26 @@ function ProfileForm() {
         <div>
           {jobForms.map((job, index) => (
             <SingleJob index={index} org={jobForms[index]['org']} job={jobForms[index]['job']} />
-          ))}
+          ))} 
         </div>
         <button class="add-job" onClick={addJobForm}>+</button>
       </div>
     )
-  }
+  } 
 
   // JOB INTERESTS
 
   const JobInterestForm = () => {
 
     const [jobInterestForms, setJobInterestForms] = useState([{org: "", job: ""}]);
-
+    
     function SingleJobInterest({org, job, index}) {
       const [newJobInterest, setNewJobInterest] = useState({org: org, job: job});
 
       const deleteJobInterestForm = () => {
         finalJobInterests.splice(index, 1);
         setJobInterestForms([...finalJobInterests]);
-      }
+      } 
 
       return (
         <>
@@ -172,18 +195,18 @@ function ProfileForm() {
                 finalJobInterests[index]['job'] = e.target.value;
                 setNewJobInterest({job: e.target.value})}}
               value={newJobInterest['job']}
-            />
+            /> 
             <div class="divider"/>
             <button class="delete-job-interest" onClick={deleteJobInterestForm}>-</button>
           </Form.Group>
         </>
-      )
+      )  
     }
 
     const addJobInterestForm = () => {
       finalJobInterests.push({org: "", job: ""});
       setJobInterestForms([...finalJobInterests]);
-    }
+    } 
 
 /*     const displayJobs = () => {
       for (let i = 0; i < jobForms.length; i++) {
@@ -196,15 +219,15 @@ function ProfileForm() {
         <div>
           {jobInterestForms.map((job, index) => (
             <SingleJobInterest index={index} org={jobInterestForms[index]['org']} job={jobInterestForms[index]['job']} />
-          ))}
+          ))} 
         </div>
         <button class="add-job-interest" onClick={addJobInterestForm}>+</button>
       </div>
     )
-  }
+  } 
 
   const submitForm = () => {
-
+    
     let jobBlanks = false;
 
     for (let i = 0; i < finalJobs.length; i++) {
@@ -221,18 +244,18 @@ function ProfileForm() {
           alert('Please fill out all the entry boxes (or delete unused ones)!')
           break;
         } else {
-
+          
           // Sync user input with Firebase backend database
           userCollection.doc(currentUser.uid).set({
             pennGroup: finalPennGroup,
             jobs: finalJobs,
             jobInterests: finalJobInterests,
 
-          });
+          });  
         }
       }
-    }
-  }
+    } 
+  } 
 
   if (currentUser == null) {
     return (
