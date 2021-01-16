@@ -5,14 +5,17 @@ import firebase from 'firebase'
 require('firebase/auth')
 
 class Auth extends React.Component {
-  state = {
-    user: {
-     nickname: '',
-     email: '',
-     password: '',
-     error: '',
-   },
-    currentUser: null
+  constructor(props) {
+    super(props);
+    this.state = {
+      user: {
+       nickname: '',
+       email: '',
+       password: '',
+       error: '',
+     },
+      currentUser: null
+    };
   };
 
   async setCurrentUser() {
@@ -20,19 +23,25 @@ class Auth extends React.Component {
     this.setState({currentUser: currentUser});
   }
 
-  componentDidMount() {
-    this.setCurrentUser();
+  async componentDidMount() {
+    await this.setCurrentUser();
+    console.log(this.state.currentUser)
   }
 
-  handleChange = e => {
-    // console.log(e.target.value);
-    // console.log(e.target.name);
-    this.setState({
+  handleChange = async(e) => {
+    console.log(e.target.value);
+    console.log(e.target.name);
+
+    await this.setState({
       user:{
+        ...this.state.user,
         [e.target.name]: e.target.value,
         error: '',
       }
     })
+
+    console.log(this.state.user.email);
+
   };
 
   handleSignUp = async(e) => {
@@ -40,7 +49,8 @@ class Auth extends React.Component {
 
     await firebase.auth().createUserWithEmailAndPassword(this.state.user.email, this.state.user.password)
     .then((user) => {
-      window.location.reload(false);
+      this.setCurrentUser();
+      // window.location.reload(false);
     })
     .catch((error) => {
       var errorCode = error.code;
@@ -56,7 +66,10 @@ class Auth extends React.Component {
 
     await firebase.auth().signInWithEmailAndPassword(this.state.user.email, this.state.user.password)
     .then((user) => {
-      window.location.reload(false);
+      this.setCurrentUser();
+      console.log(this.state.currentUser)
+      // console.log(this.state.user.email);
+      // console.log("signin request complete");
     })
     .catch((error) => {
       var errorCode = error.code;
@@ -82,6 +95,9 @@ class Auth extends React.Component {
     return (
       this.state.currentUser?
       <div>
+        <h3> You're now signed in! </h3>
+        <h4> Go to My Profile to share your profile info! </h4>
+        <h4> Explore Profiles tab to find your connection! </h4>
         <button onClick={this.handleSignOut}>Sign Out</button>
       </div>
       :
