@@ -81,7 +81,7 @@ function ProfileForm() {
           <Form.Group widths="20">
             <Form.Field
               control={Input}
-              placeholder='Company/Org'
+              placeholder='Company/Organization'
               onChange={(e) => {
                 tempJobs[index]['org'] = e.target.value;
                 return setNewJob({org: e.target.value})}}
@@ -145,7 +145,7 @@ function ProfileForm() {
           <Form.Group widths="20">
             <Form.Field
               control={Input}
-              placeholder='Company/Org'
+              placeholder='Company/Organization'
               onChange={(e) => {
                 tempJobInterests[index]['org'] = e.target.value;
                 return setNewJobInterest({org: e.target.value})}}
