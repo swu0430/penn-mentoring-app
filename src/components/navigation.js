@@ -9,7 +9,10 @@ class Navigation extends Component {
           Home
         </Link>
         <Link to="/profileform" className="item">
-          Profile
+          MyInfo
+        </Link>
+        <Link to="/profiles" className="item">
+          Profiles
         </Link>
         <Link to="/burrito" className="item">
           Burrito

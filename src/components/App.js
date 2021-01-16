@@ -9,7 +9,7 @@ import Burrito from './burrito';
 import {BrowserRouter, Route} from 'react-router-dom'
 import Navigation from './navigation';
 import Auth from './Auth';
-import GoogleAuth from './GoogleAuth';
+import Profiles from './profiles'
 
 require('firebase/auth')
 // function Burrito() {
@@ -40,6 +40,7 @@ class App extends React.Component {
             <Navigation/>
             <Route path="/" exact component={Auth}/>
             <Route path="/profileform" exact component={ProfileForm}/>
+            <Route path="/profiles" exact component={Profiles}/>
             <Route path="/burrito" exact component={Burrito}/>
           </BrowserRouter>
         </div>
