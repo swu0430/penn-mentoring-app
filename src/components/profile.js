@@ -5,9 +5,15 @@ import {
   Radio,
 } from 'semantic-ui-react';
 import '../profile.css';
+import { preloadFirestore, useFirebaseApp, useFirestore, useFirestoreCollectionData, useFirestoreDocData, useFirestoreDocDataOnce, useUser } from 'reactfire';
 
 function ProfileForm() {
   
+  //Variable initialization for Firebase backend sync
+  const firestore = useFirestore();
+  const userCollection = firestore.collection('users');
+
+  var educationGroupStatus = [true, false, false];
   var tempJobs = [{org: "", job: ""}] 
   var tempJobInterests = [{org: "", job: ""}] 
 
@@ -15,7 +21,6 @@ function ProfileForm() {
 
   const EducationForm = () => {
 
-    var educationGroupStatus = [true, false, false];
     const [educationGroup, setEducationGroup] = useState('Undergraduate Student');
 
     return (
@@ -211,8 +216,12 @@ function ProfileForm() {
     } 
     
     // Sync tempJobs and tempJobInterests with Firebase backend database here
-
-
+    userCollection.doc("TestDoc2").set({
+      jobs: tempJobs,
+      jobInterests: tempJobInterests,
+    });  
+    
+    //const userData = useFirestoreCollectionData(userQuery, {idField: 'TestId'});
   } 
 
   return (
