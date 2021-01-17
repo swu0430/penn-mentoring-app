@@ -14,9 +14,6 @@ class Navigation extends Component {
         <Link to="/profiles" className="item">
           Profiles
         </Link>
-        <Link to="/burrito" className="item">
-          Burrito
-        </Link>
       </div>
     );
   }

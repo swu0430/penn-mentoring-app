@@ -1,0 +1,18 @@
+.auth-border{
+    margin-left:1%;
+    margin-right:1%;
+    margin-bottom:1%;
+    margin-top:1%;
+    width:98%;
+    height:98%;
+}
+
+.sign-up-error-message{
+    color: red;
+    font-weight: bold;
+}
+
+.sign-in-error-message{
+    color: red;
+    font-weight: bold;
+}
