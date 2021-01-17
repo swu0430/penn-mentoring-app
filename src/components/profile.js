@@ -321,11 +321,11 @@ function UserProfile({uid}) {
 function NewProfileForm() {
   const {data: user, status: status} = useUser();
   if (status === 'loading') {
-    return 'loading';
+    return <div>Loading...</div>
   }
 
   if (user === null) {
-    return 'Please sign in to view contents';
+    return <div>Please sign in to view contents</div>;
   }
 
 /*   userCollection.doc(currentUser.uid).get().then(function(doc) {

@@ -59,6 +59,7 @@ class Profiles extends React.Component {
     // })
 
     return (
+      this.state.currentUser ? 
       <div>
         <h3> Find profiles that you'd like to connect with! </h3>
         <br/>
@@ -79,10 +80,10 @@ class Profiles extends React.Component {
 
             <button className="ui button"> Contact </button>
           </div>
-
         )}
-
       </div>
+      :
+      <div>Please sign in to view contents</div>
     )
 
 

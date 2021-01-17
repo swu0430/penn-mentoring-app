@@ -123,7 +123,7 @@ class Auth extends React.Component {
             <button onClick={this.handleSignUp}>Sign Up</button>
             <button onClick={this.handleSignIn}>Sign In</button>
           </form>
-          <h4 class="sign-in-error-message">This account does not exist yet! Please sign up first.</h4>
+          <h4 class="sign-in-error-message">Error with username or password. Please sign up first if you haven't done so!</h4>
         </div>
       )
     } else {
