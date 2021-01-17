@@ -1,8 +1,20 @@
 import React from 'react';
 import {Redirect} from 'react-router-dom';
-import { useFirebaseApp, useAuth, useUser } from 'reactfire';
+import { useFirebaseApp, useFirestore, useAuth, useUser } from 'reactfire';
 import firebase from 'firebase'
 require('firebase/auth')
+
+//Initial profile information for a new user
+var finalPennGroup = '';
+var finalJobs = [{org: "", job: ""}] 
+var finalJobInterests = [{org: "", job: ""}] 
+
+function UserDatabase() {
+  // Variable initialization for Firebase backend sync
+  const firestore = useFirestore();
+  const userCollection = firestore.collection('users');
+  return userCollection;
+}
 
 class Auth extends React.Component {
   constructor(props) {
@@ -76,6 +88,21 @@ class Auth extends React.Component {
       var errorMessage = error.message;
       console.log(errorMessage)
     });
+
+    //finalPennGroup = 'Graduate Student';
+    //finalJobs = [{org: "Prudential", job: "Actuary"}, {org: "UPenn", job: "Student"}];
+    //finalJobInterests = [{org: "Google", job: "Software Engineer"}, {org: "NASA", job: "Astronaut"}]
+
+    UserDatabase().doc(this.state.currentUser.uid).get().then(function(doc) {
+      if (doc.exists) {
+        finalPennGroup = doc.data()['pennGroup'];
+        finalJobs = doc.data()['jobs'];
+        finalJobInterests = doc.data()['jobInterests'];
+      } else {
+        finalPennGroup = 'Undergraduate Student';
+      }
+    }) 
+
   }
 
   handleSignOut = async(e) => {
@@ -114,4 +141,5 @@ class Auth extends React.Component {
   }
 }
 
+export { finalPennGroup, finalJobs, finalJobInterests };
 export default Auth;
