@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { finalPennGroup, finalJobs, finalJobInterests } from './Auth.js'
 import {
   Form,
   Input,
@@ -9,19 +10,16 @@ import { useFirebaseApp, useFirestore, useFirestoreCollectionData } from 'reactf
 
 function ProfileForm() {
   
-  // Boolean variable to determine whether to show the profile or not
-  //var showProfile = false;
-
   // Variable initialization for Firebase backend sync
   const firestore = useFirestore();
   const userCollection = firestore.collection('users');
   const firebase = useFirebaseApp();
   var currentUser = firebase.auth().currentUser;
 
-  //Initial profile information for a new user
+/*  //Initial profile information for a new user
   var finalPennGroup = '';
   var finalJobs = [{org: "", job: ""}] 
-  var finalJobInterests = [{org: "", job: ""}] 
+  var finalJobInterests = [{org: "", job: ""}]  */
 
   // PENN EDUCATION GROUP
 
@@ -29,7 +27,7 @@ function ProfileForm() {
 
     const [educationGroup, setEducationGroup] = useState(finalPennGroup);
 
-    useEffect(() => {
+/*     useEffect(() => {
       let isMounted = true; // let this flag denote mount status
       userCollection.doc(currentUser.uid).get().then(function(doc) {
         if (isMounted) {
@@ -43,7 +41,7 @@ function ProfileForm() {
         }
       })
       return () => { isMounted = false }; // use effect cleanup to set flag false, if unmounted
-    });
+    }); */
 
     return (
       <div>
@@ -167,7 +165,7 @@ function ProfileForm() {
 
   const JobInterestForm = () => {
 
-    const [jobInterestForms, setJobInterestForms] = useState([{org: "", job: ""}]);
+    const [jobInterestForms, setJobInterestForms] = useState(finalJobInterests);
     
     function SingleJobInterest({org, job, index}) {
       const [newJobInterest, setNewJobInterest] = useState({org: org, job: job});
