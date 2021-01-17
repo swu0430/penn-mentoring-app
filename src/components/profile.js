@@ -1,18 +1,28 @@
-import React, { useState, useEffect } from 'react';
-import { finalPennGroup, finalJobs, finalJobInterests } from './Auth.js'
+import React, { useState } from 'react';
 import {
   Form,
   Input,
   Radio,
 } from 'semantic-ui-react';
 import '../profile.css';
-import { useFirebaseApp, useFirestore, useFirestoreCollectionData } from 'reactfire';
+import { useFirebaseApp, useFirestore, useFirestoreCollectionData, useFirestoreDocData, useUser } from 'reactfire';
 
-function ProfileForm() {
-  
-  var tempPennGroup = finalPennGroup;
-  var tempJobs = finalJobs;
-  var tempJobInterests = finalJobInterests;
+function ProfileForm({userProfile, saveProfile}) {
+
+//The options below (1+2+3 or 1+4) would work the same as the above, but the above is a shorthand. 
+//"Props" is arbitrary and can be any value (e.g., "a").
+//function ProfileForm(props) { // (1)
+  //var userProfile = props.userProfile; // (2)
+  //var saveProfile = props.saveProfile; // (3)
+  //var {userProfile, saveProfile} = props; // (4)
+
+  var finalPennGroup = (userProfile.pennGroup === undefined) ? '' : userProfile.pennGroup;
+  var finalJobs = (userProfile.jobs === undefined) ? [{org: "", job: ""}] : userProfile.jobs;
+  var finalJobInterests = (userProfile.jobInterests === undefined) ? [{org: "", job: ""}] : userProfile.jobInterests;
+
+  //var finalPennGroup = userProfile.pennGroup;
+  //var finalJobs = userProfile.jobs;
+  //var finalJobInterests = userProfile.jobInterests;
 
   // Variable initialization for Firebase backend sync
   const firestore = useFirestore();
@@ -21,35 +31,18 @@ function ProfileForm() {
   var currentUser = firebase.auth().currentUser;
 
 /*  //Initial profile information for a new user
-  var tempPennGroup = '';
-  var tempJobs = [{org: "", job: ""}] 
-  var tempJobInterests = [{org: "", job: ""}]  */
+  var finalPennGroup = '';
+  var finalJobs = [{org: "", job: ""}] 
+  var finalJobInterests = [{org: "", job: ""}]  */
 
   // PENN EDUCATION GROUP
 
   const EducationForm = () => {
 
-    const [educationGroup, setEducationGroup] = useState(tempPennGroup);
-
-/*     useEffect(() => {
-      let isMounted = true; // let this flag denote mount status
-      userCollection.doc(currentUser.uid).get().then(function(doc) {
-        if (isMounted) {
-          if (doc.exists) {
-            tempPennGroup = doc.data()['pennGroup'];
-            setEducationGroup(tempPennGroup);
-          } else {
-            tempPennGroup = 'Undergraduate Student';
-            setEducationGroup(tempPennGroup);
-          }
-        }
-      })
-      return () => { isMounted = false }; // use effect cleanup to set flag false, if unmounted
-    }); */
+    const [educationGroup, setEducationGroup] = useState(finalPennGroup);
 
     return (
       <div>
-        <p>{tempPennGroup}</p>
         <Form.Group inline>
           <Form.Field
             control={Radio}
@@ -57,7 +50,7 @@ function ProfileForm() {
             value='Undergraduate Student'
             checked={educationGroup === 'Undergraduate Student'}
             onChange={() => {
-              tempPennGroup = 'Undergraduate Student';
+              finalPennGroup = 'Undergraduate Student';
               return setEducationGroup('Undergraduate Student')}
             }
           />
@@ -67,7 +60,7 @@ function ProfileForm() {
             value="Graduate Student"
             checked={educationGroup === "Graduate Student"}
             onChange={() => {
-              tempPennGroup = "Graduate Student";
+              finalPennGroup = "Graduate Student";
               return setEducationGroup("Graduate Student")}
             }
           />
@@ -77,7 +70,7 @@ function ProfileForm() {
             value='Alumni'
             checked={educationGroup === 'Alumni'}
             onChange={() => {
-              tempPennGroup = 'Alumni';
+              finalPennGroup = 'Alumni';
               return setEducationGroup('Alumni')}
             }
           />
@@ -90,29 +83,14 @@ function ProfileForm() {
 
   const JobForm = () => {
 
-    const [jobForms, setJobForms] = useState(tempJobs);
+    const [jobForms, setJobForms] = useState(finalJobs);
 
-/*     useEffect(() => {
-      prevent
-      let isMounted = true; // let this flag denote mount status
-      userCollection.doc(currentUser.uid).get().then(function(doc) {
-        if (isMounted) {
-          if (doc.exists) {
-            tempJobs = doc.data()['jobs'];
-            setJobForms(tempJobs);
-          }
-        }
-      })
-      return () => { isMounted = false }; // use effect cleanup to set flag false, if unmounted
-    });  */
-  
-    
     function SingleJob({org, job, index}) {
       const [newJob, setNewJob] = useState({org: org, job: job});
 
       const deleteJobForm = () => {
-        tempJobs.splice(index, 1);
-        setJobForms([...tempJobs]);
+        finalJobs.splice(index, 1);
+        setJobForms([...finalJobs]);
       } 
 
       return (
@@ -122,7 +100,7 @@ function ProfileForm() {
               control={Input}
               placeholder='Company/Organization'
               onChange={(e) => {
-                tempJobs[index]['org'] = e.target.value;
+                finalJobs[index]['org'] = e.target.value;
                 return setNewJob({org: e.target.value})}}
               value={newJob['org']}
             />
@@ -130,7 +108,7 @@ function ProfileForm() {
               control={Input}
               placeholder='Role/Function'
               onChange={(e) => {
-                tempJobs[index]['job'] = e.target.value;
+                finalJobs[index]['job'] = e.target.value;
                 setNewJob({job: e.target.value})}}
               value={newJob['job']}
             /> 
@@ -142,8 +120,8 @@ function ProfileForm() {
     }
 
     const addJobForm = () => {
-      tempJobs.push({org: "", job: ""});
-      setJobForms([...tempJobs]);
+      finalJobs.push({org: "", job: ""});
+      setJobForms([...finalJobs]);
     } 
 
 /*     const displayJobs = () => {
@@ -169,14 +147,14 @@ function ProfileForm() {
 
   const JobInterestForm = () => {
 
-    const [jobInterestForms, setJobInterestForms] = useState(tempJobInterests);
+    const [jobInterestForms, setJobInterestForms] = useState(finalJobInterests);
     
     function SingleJobInterest({org, job, index}) {
       const [newJobInterest, setNewJobInterest] = useState({org: org, job: job});
 
       const deleteJobInterestForm = () => {
-        tempJobInterests.splice(index, 1);
-        setJobInterestForms([...tempJobInterests]);
+        finalJobInterests.splice(index, 1);
+        setJobInterestForms([...finalJobInterests]);
       } 
 
       return (
@@ -186,7 +164,7 @@ function ProfileForm() {
               control={Input}
               placeholder='Company/Organization'
               onChange={(e) => {
-                tempJobInterests[index]['org'] = e.target.value;
+                finalJobInterests[index]['org'] = e.target.value;
                 return setNewJobInterest({org: e.target.value})}}
               value={newJobInterest['org']}
             />
@@ -194,7 +172,7 @@ function ProfileForm() {
               control={Input}
               placeholder='Role/Function'
               onChange={(e) => {
-                tempJobInterests[index]['job'] = e.target.value;
+                finalJobInterests[index]['job'] = e.target.value;
                 setNewJobInterest({job: e.target.value})}}
               value={newJobInterest['job']}
             /> 
@@ -206,8 +184,8 @@ function ProfileForm() {
     }
 
     const addJobInterestForm = () => {
-      tempJobInterests.push({org: "", job: ""});
-      setJobInterestForms([...tempJobInterests]);
+      finalJobInterests.push({org: "", job: ""});
+      setJobInterestForms([...finalJobInterests]);
     } 
 
 /*     const displayJobs = () => {
@@ -230,33 +208,35 @@ function ProfileForm() {
 
   const submitForm = () => {
     
+    let groupBlank = false;
     let jobBlanks = false;
+    let jobInterestBlanks = false;
 
-    for (let i = 0; i < tempJobs.length; i++) {
-      if ((tempJobs[i]['org'] === "") || (tempJobs[i]['job'] === "")) {
+    if (finalPennGroup === "") {
+      groupBlank = true;
+    }
+
+    for (let i = 0; i < finalJobs.length; i++) {
+      if ((finalJobs[i]['org'] === "") || (finalJobs[i]['job'] === "")) {
         jobBlanks = true;
-        alert('Please fill out all the entry boxes (or delete unused ones)!')
         break;
       }
     }
 
-    if (!jobBlanks) {
-      for (let i = 0; i < tempJobInterests.length; i++) {
-        if ((tempJobInterests[i]['org'] === "") || (tempJobInterests[i]['job'] ===   "")) {
-          alert('Please fill out all the entry boxes (or delete unused ones)!')
-          break;
-        } else {
-          
-          // Sync user input with Firebase backend database
-          userCollection.doc(currentUser.uid).set({
-            pennGroup: tempPennGroup,
-            jobs: tempJobs,
-            jobInterests: tempJobInterests,
-
-          });  
-        }
+    for (let j = 0; j < finalJobInterests.length; j++) {
+      if ((finalJobInterests[j]['org'] === "") || (finalJobInterests[j]['job'] === "")) {
+        jobInterestBlanks = true;
+        break;
       }
+    }
+
+    if ((groupBlank) || (jobBlanks) || (jobInterestBlanks)) {
+      alert('Please fill out all the entry boxes (or delete unused ones)!')
+    } else {  
+      // Sync user input with Firebase backend database
+      saveProfile(finalPennGroup, finalJobs, finalJobInterests);
     } 
+
   } 
 
   if (currentUser == null) {
@@ -290,4 +270,51 @@ function ProfileForm() {
   }
 }
 
-export default ProfileForm;
+function UserProfile({uid}) {
+  const firestore = useFirestore();
+  const userCollection = firestore.collection('users');
+  const userDoc = userCollection.doc(uid);
+  const {data: userProfile, status: userProfileStatus} = useFirestoreDocData(userDoc);
+  
+  function saveProfile(pennGroup, jobs, jobInterests) {
+    userCollection.doc(uid).set({
+      pennGroup: pennGroup,
+      jobs: jobs,
+      jobInterests: jobInterests,
+    }); 
+  }
+
+  if (userProfileStatus === 'loading') {
+    return 'loading profile for user ' + uid;
+  }
+
+  //<pre>{JSON.stringify(userProfile, null, 2)}</pre>
+  return <><ProfileForm userProfile={userProfile} saveProfile={saveProfile}/></>;
+
+}
+
+function NewProfileForm() {
+  const {data: user, status: status} = useUser();
+  if (status === 'loading') {
+    return 'loading';
+  }
+
+  if (user === null) {
+    return 'Please sign in to view contents';
+  }
+
+/*   userCollection.doc(currentUser.uid).get().then(function(doc) {
+    if (doc.exists) {
+      finalPennGroup = doc.data()['pennGroup'];
+      finalJobs = doc.data()['jobs'];
+      finalJobInterests = doc.data()['jobInterests'];
+    } else {
+      finalPennGroup = 'Undergraduate Student';
+    }
+  })  */ 
+
+  //<pre>{JSON.stringify(user, null, 2)}</pre>
+  return <><UserProfile uid={user.uid} /></>;
+}
+
+export default NewProfileForm;
