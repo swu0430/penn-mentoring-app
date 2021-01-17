@@ -30,3 +30,13 @@
     height:30px;
     display:inline-block;
 }
+
+.submission-successful{
+    color: green;
+    font-weight: bold;
+}
+
+.submission-failed{
+    color: red;
+    font-weight: bold;
+}

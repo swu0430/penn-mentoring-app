@@ -1,7 +1,7 @@
 import logo from '../logo.svg';
 import '../App.css';
 import React from 'react';
-import ProfileForm from './profile';
+import NewProfileForm from './profile';
 import { useFirestoreDocData, useFirestore } from 'reactfire';
 import 'firebase/firestore';
 import firebase from 'firebase'
@@ -33,27 +33,16 @@ require('firebase/auth')
 class App extends React.Component {
 
   render () {
-    // if(this.state.user) {
-      return (
-        <div className="ui cotainer">
-          <BrowserRouter>
-            <Navigation/>
-            <Route path="/" exact component={Auth}/>
-            <Route path="/profileform" exact component={ProfileForm}/>
-            <Route path="/profiles" exact component={Profiles}/>
-            <Route path="/burrito" exact component={Burrito}/>
-          </BrowserRouter>
-        </div>
-      );
-    // } else {
-    //   return (
-    //     <div className="ui cotainer">
-    //       <BrowserRouter>
-    //         <Route path="/" exact component={GoogleAuth}/>
-    //       </BrowserRouter>
-    //     </div>
-    //   );
-    // }
+    return (
+      <div className="ui cotainer">
+        <BrowserRouter>
+          <Navigation/>
+          <Route path="/" exact component={Auth}/>
+          <Route path="/profileform" exact component={NewProfileForm}/>
+          <Route path="/profiles" exact component={Profiles}/>
+        </BrowserRouter>
+      </div>
+    );
   }
 }
 
