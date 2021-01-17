@@ -20,9 +20,13 @@ function ProfileForm({userProfile, saveProfile}) {
   var finalJobs = (userProfile.jobs === undefined) ? [{org: "", job: ""}] : userProfile.jobs;
   var finalJobInterests = (userProfile.jobInterests === undefined) ? [{org: "", job: ""}] : userProfile.jobInterests;
 
+
   //var finalPennGroup = userProfile.pennGroup;
   //var finalJobs = userProfile.jobs;
   //var finalJobInterests = userProfile.jobInterests;
+
+  const [showSubmission, setShowSubmission] = useState(false);
+  const [submission, setSubmission] = useState(false);
 
   // Variable initialization for Firebase backend sync
   const firestore = useFirestore();
@@ -208,6 +212,8 @@ function ProfileForm({userProfile, saveProfile}) {
 
   const submitForm = () => {
     
+    setShowSubmission(true);
+
     let groupBlank = false;
     let jobBlanks = false;
     let jobInterestBlanks = false;
@@ -231,43 +237,62 @@ function ProfileForm({userProfile, saveProfile}) {
     }
 
     if ((groupBlank) || (jobBlanks) || (jobInterestBlanks)) {
-      alert('Please fill out all the entry boxes (or delete unused ones)!')
+      setSubmission(false);
     } else {  
       // Sync user input with Firebase backend database
       saveProfile(finalPennGroup, finalJobs, finalJobInterests);
+      setSubmission(true);
     } 
 
   } 
 
-  if (currentUser == null) {
+  function Submission() {
     return (
-      <div></div>
-    );
-  } else {
-    return (
-      <div class="profile-border">
-        <h3></h3>
-        <h3>Penn Group</h3>
-        <Form>
-          <EducationForm />
-        </Form>
-        <br />
-        <h3>Where You've Worked</h3>
-        <Form>
-          <JobForm />
-        </Form>
-        <br />
-        <h3>Where You're Interested in Working</h3>
-        <Form>
-          <JobInterestForm />
-        </Form>
-        <br />
-        <br />
-        <br />
-        <button class="submit" onClick={submitForm}>Submit</button>
-      </div>
-    );
+      showSubmission ? 
+        (submission ? 
+          <>
+            <button class="submit" onClick={submitForm}>Submit</button>
+            <p>  </p>
+            <div class="submission-successful">Success!</div>
+          </>
+          :
+          <>
+            <button class="submit" onClick={submitForm}>Submit</button>
+            <p>  </p>
+            <div class="submission-failed">Failed - Please fill out all the fields!</div>
+          </>
+        )
+        :
+        (<>
+          <button class="submit" onClick={submitForm}>Submit</button>
+        </>)
+    )
   }
+
+  return (
+    <div class="profile-border">
+      <h3></h3>
+      <h3>Penn Group</h3>
+      <Form>
+        <EducationForm />
+      </Form>
+      <br />
+      <h3>Where You've Worked</h3>
+      <Form>
+        <JobForm />
+      </Form>
+      <br />
+      <h3>Where You're Interested in Working</h3>
+      <Form>
+        <JobInterestForm />
+      </Form>
+      <br />
+      <br />
+      <br />
+      <Submission />
+    </div>
+  );
+  
 }
 
 function UserProfile({uid}) {
