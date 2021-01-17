@@ -8,11 +8,10 @@ class Profiles extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      profiles: null,
+      profiles: [],
       currentUser: null
     };
   };
-
   // firestore() = useFirestore();
   // userCollection() = firestore.collection('users');
   // firebase() = useFirebaseApp();
@@ -24,15 +23,14 @@ class Profiles extends React.Component {
   async setProfiles() {
     // const admin = require('firebase-admin');
     // admin.initializeApp();
-
     const db = firebase.app().firestore();
-
     const snapshot = await db.collection('users').get();
     snapshot.forEach((doc) => {
       console.log(doc.id, '=>', doc.data());
     });
 
-    this.setState({profiles: snapshot})
+    // console.log(snapshot);
+    // this.setState({profiles: snapshot})
 
   }
 
@@ -42,6 +40,7 @@ class Profiles extends React.Component {
     await this.setProfiles();
     console.log(this.state.currentUser)
   }
+
 
   render() {
     return (
