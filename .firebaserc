@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "penn-mentoring"
+    "default": "penn-mentoring",
+    "penn-mentoring-app": "penn-mentoring-app"
   }
 }
