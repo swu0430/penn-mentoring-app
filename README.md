@@ -10,7 +10,6 @@ Sangik Han | 2022
 Steven Wu | 2022
 
 ##
-##
 ## Initial Project Proposal
 
 **General Idea**  - A general description of what your software will do  
@@ -25,7 +24,6 @@ We hope to create a web app that can help foster more professional learning and 
 
 **Presentation URL** - At the end of the hackathon, upload your presentation to YouTube/Vimeo (unlisted) and place it here.  
 https://youtu.be/kwFrvQmrMjI
-
 
 ##
 ## Final Submission Review
