@@ -21,4 +21,4 @@ We hope to create a web app that can help foster more professional learning and 
     * Firebase - For hosting on a server, providing authentication, query the DB of users, image storage, etc.
 
 **Presentation URL** - At the end of the hackathon, upload your presentation to YouTube/Vimeo (unlisted) and place it here.  
-* <Enter URL here>
+https://youtu.be/kwFrvQmrMjI
