@@ -28,7 +28,7 @@ https://youtu.be/kwFrvQmrMjI
 ##
 ## Final Submission Review
 
-## Inspiration
+# Inspiration
 We wanted to create a web app that could help connect members of the Penn community and promote more mutual professional learning and mentorship. Also, from a technical side, Sang and I were both interested in learning how to use React and JavaScript for front end web development and how to connect an application with a backend.
 
 ## What it does
