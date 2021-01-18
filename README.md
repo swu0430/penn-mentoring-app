@@ -9,7 +9,9 @@ Name | Year
 Sangik Han | 2022
 Steven Wu | 2022
 
-### Initial Project Proposal
+##
+##
+## Initial Project Proposal
 
 **General Idea**  - A general description of what your software will do  
 We hope to create a web app that can help foster more professional learning and mentorship across the Penn community, potentially including undergraduate students, graduate students, and alumni. Our basic initial idea is to provide an interface for members to sign in/sign up and input basic information (organizations and roles they're interested in learning about, as well as organizations and roles they've worked at); we'll create a simple algorithm to match members who are interested in an organization/role to members who have experience in that organization/role. We also plan to enable to members to input their hobbies and incorporate this into the matching process to potentially help making the networking easier. Further, we plan to have the members input some other settings and preferences, such as their email address, which groups they'd like to be matched with (undergraduate / graduate / alumni), and maybe how frequently they'd like to be matched with other people (e.g., x # of times per month/year).
@@ -25,8 +27,9 @@ We hope to create a web app that can help foster more professional learning and 
 https://youtu.be/kwFrvQmrMjI
 
 
-
-### Final Submission Review
+##
+##
+## Final Submission Review
 
 ## Inspiration
 We wanted to create a web app that could help connect members of the Penn community and promote more mutual professional learning and mentorship. Also, from a technical side, Sang and I were both interested in learning how to use React and JavaScript for front end web development and how to connect an application with a backend.
